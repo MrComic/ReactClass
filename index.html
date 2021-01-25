@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Store</title>
+
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script type="text/babel">
+      const styles = {
+        hideText: {
+          textOverflow: "ellipsis",
+          display: "block",
+          whiteSpace: "nowrap",
+          width: "100%",
+          overflow: "hidden",
+        },
+      };
+      function init() {
+        fetch("https://fakestoreapi.com/products")
+          .then((s) => s.json())
+          .then((s) => {
+            render(s);
+          });
+      }
+
+      function render(list) {
+        const CardImage = (src, alt) => (
+          <img
+            className="card-img-top"
+            style={{ height: 200 }}
+            src={src}
+            alt={alt}
+          />
+        );
+
+        const Card = (title, image, body) => (
+          <div className="card">
+            {CardImage(image, title)}
+            <div className="card-body">
+              <h5
+                className="card-title"
+                title={StoreItem.title}
+                style={{ ...styles.hideText }}
+              >
+                {title}
+              </h5>
+              {body}
+            </div>
+          </div>
+        );
+
+        const CropText = (text, length) =>
+          text.length < length ? text : text.substring(0, length) + "...";
+
+        const StoreItem = (StoreItem) => (
+          <div>
+            <ul className="list-group">
+              <li className="list-group-item">
+                {CropText(StoreItem.description, 100)}
+              </li>
+              <li className="list-group-item">${StoreItem.price}</li>
+            </ul>
+            <br />
+            <input
+              type="button"
+              className=" btn-dark btn btn-block"
+              value="view detail"
+            />
+            <input
+              type="button"
+              className=" btn-success btn btn-block"
+              value="add to card"
+            />
+          </div>
+        );
+
+        const element = (
+          <div className="container ">
+            <div className="row pt-5">
+              {list.map((s, i) => {
+                return (
+                  <div key={s.id} className="col-lg-4 col-md-6 col-12 mb-5">
+                    {Card(s.title, s.image, StoreItem(s))}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+
+        ReactDOM.render(element, document.getElementById("app"));
+      }
+      init();
+    </script>
+  </body>
+</html>
