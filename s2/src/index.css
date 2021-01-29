@@ -1,0 +1,14 @@
+body {
+  background-color: #f9f9f9 !important;
+}
+
+.material-input {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid white !important;
+  border-radius: 0 !important;
+  margin-bottom: 5px !important;
+  box-shadow: none !important;
+  color: white !important;
+  padding: 0 !important;
+}
